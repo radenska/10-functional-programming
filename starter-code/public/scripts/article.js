@@ -62,30 +62,20 @@
 
   // DONE: Chain together a `map` and a `reduce` call to get a rough count of all words in all articles.
   Article.numWordsAll = () => {
-    console.log('numWordsAll function');
     return Article.all.map(obj => {
       return obj.body.split(' ').length;
-    }).reduce((previous, current) => { return previous + current; }, 0);
-
-    // var numWords = 0;
-    // Article.all.forEach(function(val){
-    //   numWords += val.body.split('').length;
-    // })
-    // return numWords;
+    }).reduce((previous, current) => previous + current)
   };
 
-  // TODO: Chain together a `map` and a `reduce` call to produce an array of unique author names.
+  // DONE: Chain together a `map` and a `reduce` call to produce an array of unique author names.
   Article.allAuthors = () => {
-    return Article.all
-    .map(obj => obj.author)
-    .reduce((accumulate, previous) => {
-      if (!accumulate.includes(previous))
-        {
-          accumulate.push(previous);
-        }
-      return console.log(accumulate);
-    }, []);
+    return Article.all.map(obj => obj.author)
+      .reduce((bracketythingy, author) => {
+        !bracketythingy.includes(author) ? bracketythingy.push(author) : null;
+        return bracketythingy;
+      }, []);
   };
+
   Article.numWordsByAuthor = () => {
     return Article.allAuthors().map(author => {
       // DONE: Transform each author string into an obj with properties for
@@ -93,11 +83,11 @@
       // written by the specified author.
       return {
         name: author, // DONE: Complete the value for this obj property
-        numWords: Article.all.filter(name)
-        .map(obj => {
-          return obj.body.split(' ').length;
-        })
-        .reduce((previous, current) => { return previous + current; }, 0) // DONE: Complete these three FP methods.
+        numWords: Article.all.filter(obj => obj.author === author)
+                             .map(obj => obj.body.split(' ').length)
+                             .reduce((previous, current) => previous + current),
+        numArticles: Article.all.filter(obj => obj.author === author)
+                                .map(obj => obj.body).length, // DONE: Complete these three FP methods.
       }
     })
   };

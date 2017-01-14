@@ -12,9 +12,9 @@
   "author": "Code Fellows",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.13.3",
     "bluebird": "^3.4.7",
     "body-parser": "^1.15.2",
+    "express": "^4.13.3",
     "pg": "^6.1.2"
   }
 }
