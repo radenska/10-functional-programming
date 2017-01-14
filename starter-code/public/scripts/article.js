@@ -29,7 +29,7 @@
 
     // DONE: Refactor this forEach code, by using a `.map` call instead, since want we are trying to accomplish
     // is the transformation of one colleciton into another.
-    map((rawData) => Articles.all.push());
+    Article.all = rows.map(ele => new Article(ele));
 
     //   rawData.forEach(function(ele) {
     //   Article.all.push(new Article(ele));
@@ -62,31 +62,42 @@
 
   // DONE: Chain together a `map` and a `reduce` call to get a rough count of all words in all articles.
   Article.numWordsAll = () => {
-    return Article.all.map(() => {
-      return body.split(' ').length;
+    console.log('numWordsAll function');
+    return Article.all.map(obj => {
+      return obj.body.split(' ').length;
     }).reduce((previous, current) => { return previous + current; }, 0);
+
+    // var numWords = 0;
+    // Article.all.forEach(function(val){
+    //   numWords += val.body.split('').length;
+    // })
+    // return numWords;
   };
 
   // TODO: Chain together a `map` and a `reduce` call to produce an array of unique author names.
   Article.allAuthors = () => {
-    return Article.all.map(() => { return author; }).reduce((uniqueAuthors, current) => {
-      return !(current in uniqueAuthors) ? uniqueAuthors.push(current)
+    return Article.all
+    .map(obj => obj.author)
+    .reduce((accumulate, previous) => {
+      if (!accumulate.includes(previous))
+        {
+          accumulate.push(previous);
+        }
+      return console.log(accumulate);
+    }, []);
   };
-
-
-
   Article.numWordsByAuthor = () => {
     return Article.allAuthors().map(author => {
-      // TODO: Transform each author string into an object with properties for
+      // DONE: Transform each author string into an obj with properties for
       // the author's name, as well as the total number of words across all articles
       // written by the specified author.
       return {
-        name: author, // TODO: Complete the value for this object property
+        name: author, // DONE: Complete the value for this obj property
         numWords: Article.all.filter(name)
-        .map() => {
-          return body.split(' ').length;
-        }
-        .reduce((previous, current) => { return previous + current; }, 0);) // TODO: Complete these three FP methods.
+        .map(obj => {
+          return obj.body.split(' ').length;
+        })
+        .reduce((previous, current) => { return previous + current; }, 0) // DONE: Complete these three FP methods.
       }
     })
   };
@@ -129,10 +140,10 @@
         publishedOn: this.publishedOn,
         title: this.title,
         id: this.article_id}
-      })
+    })
       .then(console.log)
       .then(callback);
-    };
+  };
 
   module1.Article = Article;
 
